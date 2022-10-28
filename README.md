@@ -20,11 +20,11 @@ Aplicativo para ajudar os garçons gerenciar os pedido de uma pizzaria.
 
 -   [x] Autenticação com firebase (e-mail e senha).
 -   [x] Redefinição de senha com firebase(e-mail).
--   [x] Obtém perfil do usuário cadastro no Firestore (Administrador ou garçom);
+-   [x] Obtém perfil do usuário cadastrado no Firestore (Administrador ou garçom);
 -   [x] Componente de upload de imagens.
+-   [x] Tela de cadastro de produtos.
 -   [ ] Lista os servidores de sabores pizzas;
 -   [ ] Pesquisa de sabores de pizzas;
--   [ ] Tela do produto;
 -   [ ] Tela de pedidos (com status de cada pedido em tempo real);
 -   [x] Disponibiliza a função de Logout.
 
