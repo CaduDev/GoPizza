@@ -21,8 +21,10 @@ Aplicativo para ajudar os garçons gerenciar os pedido de uma pizzaria.
 -   [x] Autenticação com firebase (e-mail e senha).
 -   [x] Redefinição de senha com firebase(e-mail).
 -   [x] Obtém perfil do usuário cadastrado no Firestore (Administrador ou garçom);
--   [x] Componente de upload de imagens.
 -   [x] Tela de cadastro de produtos.
+-   [x] Componente de upload de imagens.
+-   [x] Uplaod de arquivo para o storage do firebase.
+-   [x] Cadastro de produto no firestore.
 -   [ ] Lista os servidores de sabores pizzas;
 -   [ ] Pesquisa de sabores de pizzas;
 -   [ ] Tela de pedidos (com status de cada pedido em tempo real);
@@ -41,7 +43,7 @@ Aplicativo para ajudar os garçons gerenciar os pedido de uma pizzaria.
 -   [x] Gradient colors
 -   [x] Expo Google Fonts
 -   [ ] React Navigation Stack
--   [ ] React Native Gesture Handler
+-   [x] React Native Gesture Handler
 -   [x] Firebase Authentication
 
 
