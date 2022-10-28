@@ -25,8 +25,8 @@ Aplicativo para ajudar os garçons gerenciar os pedido de uma pizzaria.
 -   [x] Componente de upload de imagens.
 -   [x] Uplaod de arquivo para o storage do firebase.
 -   [x] Cadastro de produto no firestore.
--   [ ] Lista os servidores de sabores pizzas;
--   [ ] Pesquisa de sabores de pizzas;
+-   [x] Listagem de sabores pizzas;
+-   [x] Pesquisa de sabores de pizzas;
 -   [ ] Tela de pedidos (com status de cada pedido em tempo real);
 -   [x] Disponibiliza a função de Logout.
 
