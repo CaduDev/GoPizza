@@ -23,6 +23,7 @@ type User = {
 type AuthContextData = {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  forgotPassword: (email: string) => Promise<void>;
   isLogging: boolean;
   user: User | null;
 }
@@ -104,12 +105,23 @@ function AuthProvider({ children }: AuthProviderProps) {
     setUser(null);
   }
 
+  async function forgotPassword(email: string) {
+    if(!email) {
+      return Alert.alert('Recuperação de acesso!', 'Informe o e-mail.')
+    }
+
+    auth()
+    .sendPasswordResetEmail(email)
+    .then(() => Alert.alert('Recuperação de acesso!', 'Enviamos um link no seu e-mail para redefinir sua senha!'))
+    .catch(() => Alert.alert('Recuperação de acesso!', 'Não foi possível enviar o e-mail para redefinir sua senha!'))
+  }
+
   useEffect(() => {
     LoadUserStorageData();
   }, []);
 
   return(
-    <AuthContext.Provider value={{ signIn, signOut, isLogging, user }}>
+    <AuthContext.Provider value={{ signIn, signOut, forgotPassword, isLogging, user }}>
       {children}
     </AuthContext.Provider>
   )

@@ -19,7 +19,9 @@ Aplicativo para ajudar os garçons gerenciar os pedido de uma pizzaria.
 ## :hammer_and_wrench: Features 
 
 -   [x] Autenticação com firebase (e-mail e senha).
+-   [x] Redefinição de senha com firebase(e-mail).
 -   [x] Obtém perfil do usuário cadastro no Firestore (Administrador ou garçom);
+-   [x] Componente de upload de imagens.
 -   [ ] Lista os servidores de sabores pizzas;
 -   [ ] Pesquisa de sabores de pizzas;
 -   [ ] Tela do produto;
