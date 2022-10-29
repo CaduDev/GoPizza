@@ -42,9 +42,9 @@ Aplicativo para ajudar os garçons gerenciar os pedido de uma pizzaria.
 -   [x] Async Storage
 -   [x] Vector Icons
 -   [x] React Native Gesture Handler
--   [x] Banco de dados Firebase
+-   [x] Firebase Firestore
 -   [x] Firebase Authentication
--   [x] Firestore 
+-   [x] Storage do Firebase 
 -   [x] Gradient colors
 -   [x] Expo Google Fonts
 -   [ ] React Navigation Stack
