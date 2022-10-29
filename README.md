@@ -25,26 +25,29 @@ Aplicativo para ajudar os garçons gerenciar os pedido de uma pizzaria.
 -   [x] Componente de upload de imagens.
 -   [x] Uplaod de arquivo para o storage do firebase.
 -   [x] Cadastro de produto no firestore.
--   [x] Listagem de sabores pizzas;
--   [x] Pesquisa de sabores de pizzas;
--   [ ] Tela de pedidos (com status de cada pedido em tempo real);
+-   [x] Listagem de produtos;
+-   [x] Pesquisa de produtos;
+-   [x] Detalhes do produto;
+-   [x] Exclusão do produto;
+-   [x] Modal Personalizado;
 -   [x] Disponibiliza a função de Logout.
+-   [ ] Tela de pedidos (com status de cada pedido em tempo real);
 
 
 ## ✨ Tecnologias
 
 -   [x] React Native
 -   [x] Typescript
--   [x] Expo
 -   [x] Context API
 -   [x] Async Storage
--   [ ] Vector Icons
--   [ ] Axios
+-   [x] Vector Icons
+-   [x] React Native Gesture Handler
+-   [x] Banco de dados Firebase
+-   [x] Firebase Authentication
+-   [x] Firestore 
 -   [x] Gradient colors
 -   [x] Expo Google Fonts
 -   [ ] React Navigation Stack
--   [x] React Native Gesture Handler
--   [x] Firebase Authentication
 
 
 ## 🔖 Layout

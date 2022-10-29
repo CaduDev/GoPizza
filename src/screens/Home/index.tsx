@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
-import { TouchableOpacity, Alert, FlatList } from 'react-native';
+import { TouchableOpacity, FlatList } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
 import firestore from '@react-native-firebase/firestore';
+
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 import { useTheme } from 'styled-components/native';
 
 import { Search } from '../../components/Search';
 
 import { ProductCard, ProductProps } from '../../components/ProductCard';
+
+import { Alert } from '../../components/Alert';
 
 import happyEmoji from '../../assets/happy.png';
 
@@ -24,11 +28,22 @@ import {
   Title,
   MenuItemsNumber,
   LabelListEmptyComponent,
+  NewProductButton,
 } from './styles';
 
 export function Home() {
   const { COLORS } = useTheme();
-
+  const navigation = useNavigation();
+  const [modal, setModal] = useState({
+    showModal: false,
+    title: "Erro!",
+    description: "Não foi possivel realizar a consulta!",
+    textCancel: "",
+    textConfirm: "Ok",
+    functionCancel: () => {},
+    functionConfirm: () => setModal({...modal, showModal: false, }),
+  });
+  
   const [pizzas, setPizzas] = useState<ProductProps[]>([]);
   const [search, setSearch] = useState('');
 
@@ -51,7 +66,7 @@ export function Home() {
 
       setPizzas(data);
     })
-    .catch(() => Alert.alert('Error', 'Não foi possivel realizar a consulta!'));
+    .catch(() => setModal({...modal, showModal: true }));
   }
 
   function handleSearch() {
@@ -63,9 +78,18 @@ export function Home() {
 
     fetchPizzas('');
   }
-  useEffect(() => {
+
+  function handleOpen(id: string) {
+    navigation.navigate('product', { id });
+  }
+
+  function handleAdd() {
+    navigation.navigate('product', {});
+  }
+
+  useFocusEffect(useCallback(() => {
     fetchPizzas('');
-  }, [])
+  }, []));
 
   return (
     <Container>
@@ -95,14 +119,33 @@ export function Home() {
       <FlatList
         data={pizzas}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => <ProductCard data={item} />}
+        renderItem={({ item }) => (
+          <ProductCard
+            data={item}
+            onPress={() => handleOpen(item.id)}
+          />
+        )}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={<LabelListEmptyComponent>Nenhum sabor corresponde a o valor pesquisado!</LabelListEmptyComponent>}
+        ListEmptyComponent={<LabelListEmptyComponent>Nenhum valor encontrado!</LabelListEmptyComponent>}
         contentContainerStyle={{
           paddingTop: 20,
           paddingBottom: 125,
           marginHorizontal: 24,
         }}
+      />
+      <NewProductButton
+        title="Cadastrar Pizza"
+        type="secondary"
+        onPress={handleAdd}
+      />
+      <Alert 
+        showModal={modal.showModal}
+        title={modal.title}
+        description={modal.description}
+        textCancel={modal.textCancel}
+        functionCancel={modal.functionCancel}
+        textConfirm={modal.textConfirm}
+        functionConfirm={modal.functionConfirm}
       />
     </Container>
   );

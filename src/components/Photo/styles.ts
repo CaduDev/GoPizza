@@ -18,6 +18,7 @@ export const Placeholder = styled.View`
 export const PlaceholderTitle = styled.Text`
   font-size: 14px;
   text-align: center;
+  
   ${({ theme }) => css`
     font-family: ${theme.FONTS.TEXT};
     color: ${theme.COLORS.SECONDARY_900};
