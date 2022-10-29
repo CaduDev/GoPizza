@@ -172,7 +172,8 @@ export function Product() {
           showModal: true,
           title: 'Sucesso',
           textCancel: '',
-          description: 'Pizza cadastrada com sucesso!'
+          description: 'Pizza cadastrada com sucesso!',
+          functionConfirm: () => navigation.navigate('home'),
         });
 
         setImage('');
@@ -190,9 +191,8 @@ export function Product() {
           textCancel: '',
           description: 'Não foi possivel cadastrar a pizza!'
         });
+        setIsLoading(false);
       });
-      
-      setIsLoading(false);
   }
 
   function handleGoBack() {

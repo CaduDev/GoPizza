@@ -6,9 +6,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import firestore from '@react-native-firebase/firestore';
 
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { useTheme } from 'styled-components/native';
+
+import { useAuth } from '../../hooks/auth';
 
 import { Search } from '../../components/Search';
 
@@ -32,8 +34,12 @@ import {
 } from './styles';
 
 export function Home() {
-  const { COLORS } = useTheme();
   const navigation = useNavigation();
+  
+  const { signOut, user } = useAuth();
+
+  const { COLORS } = useTheme();
+
   const [modal, setModal] = useState({
     showModal: false,
     title: "Erro!",
@@ -80,7 +86,9 @@ export function Home() {
   }
 
   function handleOpen(id: string) {
-    navigation.navigate('product', { id });
+    const route = user?.isAdmin ? 'product' : 'order';
+    
+    navigation.navigate(route, { id });
   }
 
   function handleAdd() {
@@ -103,6 +111,7 @@ export function Home() {
             name="logout"
             size={24}
             color={COLORS.TITLE}
+            onPress={signOut}
           />
         </TouchableOpacity>
       </Header>
@@ -133,11 +142,11 @@ export function Home() {
           marginHorizontal: 24,
         }}
       />
-      <NewProductButton
+      {user && <NewProductButton
         title="Cadastrar Pizza"
         type="secondary"
         onPress={handleAdd}
-      />
+      />}
       <Alert 
         showModal={modal.showModal}
         title={modal.title}
