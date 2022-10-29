@@ -23,12 +23,14 @@ import {
   MenuHeader,
   Title,
   MenuItemsNumber,
+  LabelListEmptyComponent,
 } from './styles';
 
 export function Home() {
   const { COLORS } = useTheme();
 
   const [pizzas, setPizzas] = useState<ProductProps[]>([]);
+  const [search, setSearch] = useState('');
 
   function fetchPizzas(value: string) {
     const formattedValue = value.toLowerCase().trim();
@@ -52,6 +54,15 @@ export function Home() {
     .catch(() => Alert.alert('Error', 'Não foi possivel realizar a consulta!'));
   }
 
+  function handleSearch() {
+    fetchPizzas(search);
+  }
+
+  function handleSearchClear() {
+    setSearch('');
+
+    fetchPizzas('');
+  }
   useEffect(() => {
     fetchPizzas('');
   }, [])
@@ -71,7 +82,12 @@ export function Home() {
           />
         </TouchableOpacity>
       </Header>
-      <Search onSearch={() => {}} onClear={() => {}} />
+      <Search
+        onChangeText={setSearch}
+        value={search}
+        onSearch={handleSearch}
+        onClear={handleSearchClear}
+      />
       <MenuHeader>
         <Title>Cardápio</Title>
         <MenuItemsNumber>{pizzas.length} pizzas</MenuItemsNumber>
@@ -81,6 +97,7 @@ export function Home() {
         keyExtractor={item => item.id}
         renderItem={({ item }) => <ProductCard data={item} />}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={<LabelListEmptyComponent>Nenhum sabor corresponde a o valor pesquisado!</LabelListEmptyComponent>}
         contentContainerStyle={{
           paddingTop: 20,
           paddingBottom: 125,

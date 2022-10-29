@@ -67,3 +67,14 @@ export const Title = styled.Text`
     color: ${theme.COLORS.SECONDARY_900};
   `};
 `;
+
+export const LabelListEmptyComponent = styled.Text`
+  font-size: 14px;
+  width: 100%;
+  text-align: center;
+
+  ${({ theme }) => css`
+    font-family: ${theme.FONTS.TEXT};
+    color: ${theme.COLORS.SECONDARY_900};
+  `}; 
+`;
