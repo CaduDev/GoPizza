@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { KeyboardAvoidingView, Platform } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { useAuth } from '../../hooks/auth';
 
 import { Input } from '../../components/Input';
@@ -21,6 +23,7 @@ import {
 } from './styles';
 
 export function ForgotPassword() {
+  const navigation = useNavigation();
   const { forgotPassword, isLogging } = useAuth();
 
   const [email, setEmail] = useState('');
@@ -50,7 +53,7 @@ export function ForgotPassword() {
             onPress={handleForgotPassword}
             isLoading={isLogging}
           />
-          <LogInButton>
+          <LogInButton onPress={() => navigation.navigate('signIn')}>
             <LogInLabel>Já tenho uma conta!</LogInLabel>
           </LogInButton>
         </Content>

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { KeyboardAvoidingView, Platform } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { useAuth } from '../../hooks/auth';
 
 import { Input } from '../../components/Input';
@@ -21,6 +23,7 @@ import {
 } from './styles';
 
 export function SignIn() {
+  const navigation = useNavigation();
   const { signIn, isLogging } = useAuth();
 
   const [email, setEmail] = useState('');
@@ -51,7 +54,9 @@ export function SignIn() {
             secureTextEntry
             onChangeText={setPassword}
           />
-          <ForgotPasswordButton>
+          <ForgotPasswordButton
+            onPress={() => navigation.navigate('forgotPassword')}
+          >
             <FortPasswordLabel>Esqueci minha senha</FortPasswordLabel>
           </ForgotPasswordButton>
           <Button

@@ -16,13 +16,13 @@ import { Input } from '../../components/Input';
 
 import { Button } from '../../components/Button';
 
-import { Alert } from '../../components/Alert';
-
 import { OrderNavigationProps } from '../../@types/navigation';
 
 import { ProductProps } from '../../components/ProductCard';
 
 import { ConfirmOrderModal } from '../../components/ConfirmOrderModal';
+
+import { useDropdown } from '../../components/AlertDropdown';
 
 import { PIZZA_TYPES } from '../../utils/pizzaTypes';
 
@@ -52,6 +52,8 @@ type PizzaResponse = ProductProps & {
 export function Order() {
   const navigation = useNavigation();
 
+  const { openDropdown } = useDropdown();
+
   const { user } = useAuth();
 
   const route = useRoute();
@@ -62,15 +64,6 @@ export function Order() {
   const [tableNumber, setTableNumber] = useState('');
   const [pizza, setPizza] = useState<PizzaResponse>({} as PizzaResponse);
   const [sendingOrder, setSendingOrder] = useState(false);
-  const [modal, setModal] = useState({
-    showModal: false,
-    title: "Erro!",
-    description: "Não foi possivel realizar a consulta!",
-    textCancel: "",
-    textConfirm: "Ok",
-    functionCancel: () => {},
-    functionConfirm: () => setModal({...modal, showModal: false, }),
-  });
   const [confirmOrderModal, setConfirmOrderModal] = useState(true);
 
   const amount = size ? pizza.prices_sizes[size] * quantity: '0,00';
@@ -85,34 +78,15 @@ export function Order() {
 
   async function handleOrder() {
     if(!size) {
-      return setModal({
-        ...modal, 
-        showModal: true,
-        title: 'Aviso!',
-        textCancel: '',
-        description: 'Selecione o tamanho da pizza.'
-      });
-
+      return openDropdown('error', 'Aviso!','Selecione o tamanho da pizza.');
     }
 
     if(!tableNumber) {
-      return setModal({
-        ...modal, 
-        showModal: true,
-        title: 'Avsio!',
-        textCancel: '',
-        description: 'Informe o número da mesa.'
-      });
+      return openDropdown('error', 'Aviso!','Informe o número da mesa.');
     }
 
     if(!quantity) {
-      return setModal({
-        ...modal, 
-        showModal: true,
-        title: 'Aviso!',
-        textCancel: '',
-        description: 'Informe a quantidade de pizzas.'
-      });
+      return openDropdown('error', 'Aviso!','Informe a quantidade de pizzas.');
     }
 
     setSendingOrder(true);
@@ -132,17 +106,10 @@ export function Order() {
     .then(() => {
       navigation.navigate('home');
 
-      setModal({
-        ...modal, 
-        showModal: true,
-        title: 'Pedido!',
-        textCancel: '',
-        description: 'Pedido realizado com sucesso!'
-
-      });     
+      return openDropdown('success', 'Sucesso!','Pedido realizado com sucesso.'); 
     })
     .catch(() => {
-      // Não foi possível carregar o NewProductButton.
+      return openDropdown('error', 'Aviso!','Não foi possivel realizar o pedido.');
     })
   }
 
@@ -154,13 +121,7 @@ export function Order() {
       .get()
       .then(response => setPizza(response.data() as PizzaResponse))
       .catch(() => {
-        setModal({
-          ...modal, 
-          showModal: true,
-          title: 'Aviso!',
-          textCancel: '',
-          description: 'Não foi possível carregar o produtor.'
-        });
+        return openDropdown('error', 'Aviso!','Não foi possível carregar o produto.');
       });
     }
   }, [id]);
@@ -217,29 +178,6 @@ export function Order() {
           />
         </Form>
       </ContentScroll>
-      {/* <ConfirmOrderModal
-        showModal={confirmOrderModal}
-        closedModal={handleCloseModal}
-        data={{
-          quantity,
-          amount,
-          pizza: pizza.name,
-          size,
-          table_number: tableNumber,
-          status: 'Preparando',
-          waiter_id: user?.id,
-          image: pizza.photo_url,
-        }}
-      /> */}
-      <Alert 
-        showModal={modal.showModal}
-        title={modal.title}
-        description={modal.description}
-        textCancel={modal.textCancel}
-        functionCancel={modal.functionCancel}
-        textConfirm={modal.textConfirm}
-        functionConfirm={modal.functionConfirm}
-      />
     </Container>
   );
 }

@@ -16,7 +16,7 @@ import { Search } from '../../components/Search';
 
 import { ProductCard, ProductProps } from '../../components/ProductCard';
 
-import { useModal } from '../../hooks/Alert';
+import { useDropdown } from '../../components/AlertDropdown';
 
 import happyEmoji from '../../assets/happy.png';
 
@@ -39,7 +39,7 @@ export function Home() {
   
   const { signOut, user } = useAuth();
 
-  const { openModal } = useModal();
+  const { openDropdown } = useDropdown();
 
   const { COLORS } = useTheme();
   
@@ -66,14 +66,10 @@ export function Home() {
       setPizzas(data);
     })
     .catch(() => {
-      openModal(
-        'Erro!',
+      openDropdown(
+        'error',
+        'Aviso!',
         'Não fo possivel carregar a lista de produtos.',
-        '',
-        'Ok',
-        {
-          cancel: false,
-        }
       );
     });
   }
@@ -96,18 +92,6 @@ export function Home() {
 
   function handleAdd() {
     navigation.navigate('product', {});
-  }
-
-  function teste() {
-    openModal(
-      'Erro!',
-      'Não fo possivel carregar a lista de produtos.',
-      '',
-      'Ok',
-      {
-        cancel: false,
-      }
-    );
   }
 
   useFocusEffect(useCallback(() => {
@@ -157,7 +141,6 @@ export function Home() {
           marginHorizontal: 24,
         }}
       />
-      <Button title="Testar Dropdawn Alert" onPress={teste} />
       {user?.isAdmin && <NewProductButton
         title="Cadastrar Pizza"
         type="secondary"

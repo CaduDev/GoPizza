@@ -16,7 +16,9 @@ import theme from './src/theme/index';
 
 import { AuthProvider } from './src/hooks/auth';
 
-import { AlertProvider } from './src/hooks/Alert';
+import { AlertProvider } from './src/components/Alert';
+
+import { DropdownProvider } from './src/components/AlertDropdown';
 
 import { Routes } from './src/routes';
 
@@ -34,11 +36,13 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
         <StatusBar style='light' translucent backgroundColor='transparent' />
-        <AlertProvider>
-          <AuthProvider>
-            <Routes />
-          </AuthProvider>
-        </AlertProvider>
+        <DropdownProvider>
+          <AlertProvider>
+            <AuthProvider>
+              <Routes />
+            </AuthProvider>
+          </AlertProvider>
+        </DropdownProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
   );

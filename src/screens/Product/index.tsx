@@ -31,6 +31,8 @@ import { Button } from '../../components/Button';
 
 import { Loading } from '../../components/Loading';
 
+import { useModal } from '../../components/Alert';
+
 import {
   Container,
   Header,
@@ -55,7 +57,10 @@ type PizzaResponse = ProductProps & {
 
 export function Product() {
   const navigation = useNavigation();
+
   const route = useRoute();
+
+  const { openModal } = useModal();
 
   const { id } = route.params as ProductNavigationProps;
 
@@ -232,13 +237,17 @@ export function Product() {
         setIsLoadingProduct(false);
       })
       .catch(() => {
-        setModal({
-          ...modal, 
-          showModal: true,
-          title: 'Erro',
-          textCancel: "",
-          description: 'Não foi possivel carregar os dados do produto'
-        });
+        // openModal(
+        //   'Erro!'
+        //   ''  
+        // );
+        // setModal({
+        //   ...modal, 
+        //   showModal: true,
+        //   title: 'Erro',
+        //   textCancel: "",
+        //   description: 'Não foi possivel carregar os dados do produto'
+        // });
       })
     } else {
       setIsLoadingProduct(false);

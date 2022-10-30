@@ -1,4 +1,10 @@
-import React from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 import { View } from 'react-native';
 
@@ -14,47 +20,115 @@ import {
   TitleAction,
 } from './styles';
 
-export type AlertProps = {
-  showModal: boolean;
-  title: string;
-  description: string;
-  textCancel?: string;
-  textConfirm?: string;
-  functionCancel: () => void;
-  functionConfirm: () => void;
+type OptionsFunctionActionProps = {
+  cancel?: (() => void) | boolean;
+  confirm?: (() => void) | boolean;
 }
 
-export function Alert({
-  showModal=false,
-  title="Alerta!",
-  description="Descrição!",
-  textCancel="Cancelar",
-  textConfirm="Confirmar",
-  functionCancel,
-  functionConfirm,
-}: AlertProps) {
+type AlertContext = {
+  openModal: (
+    title: string,
+    description: string,
+    titleCancelAction?: string,
+    titleConfirmAction?: string,
+    optionsFunctionAction?: OptionsFunctionActionProps,
+  ) => void;
+  closeModal: () => void;
+}
+
+type Props = {
+  children: ReactNode;
+}
+
+export const AlertContext = createContext({} as AlertContext);
+
+const DEFAULT_FUNCTION: OptionsFunctionActionProps = {
+  cancel: () => {},
+  confirm: () => {},
+}
+
+function AlertProvider({ children }: Props) {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [titleCancel, setTitleCancel] = useState('');
+  const [titleConfirm, setTitleConfirm] = useState('');
+  const [action, setAction] = useState<OptionsFunctionActionProps>(DEFAULT_FUNCTION);
+
+  function openModal(
+    title: string,
+    description: string,
+    titleCancelAction: any,
+    titleConfirmAction: any,
+    optionsFunctionAction?: OptionsFunctionActionProps,
+  ) {
+    setOpen(true);
+    setTitle(title);
+    setDescription(description);
+    setTitleCancel(titleCancelAction||'Cancelar');
+    setTitleConfirm(titleConfirmAction||'Confirmar');
+
+    const optionsFunctionActionCover: OptionsFunctionActionProps = {
+      ...DEFAULT_FUNCTION,
+      ...optionsFunctionAction,
+    }
+
+    setAction(optionsFunctionActionCover);
+  }
+
+  function closeModal() {
+    setOpen(false);
+  }
+
+  function handleCancelModal() {
+    if(typeof action.cancel === 'function') {
+      action.cancel();
+    }
+    
+    setOpen(false);
+  }
+
+  function handleConfirmModal() {
+    if(typeof action.confirm === 'function') {
+      action.confirm();
+    }
+
+    setOpen(false)
+  }
+
   return (
-    <Modal visible={showModal}>
-      <Container>
-        <Content>
-          <Header>
-            <Title>{title}</Title>
-            <Description>{description}</Description>
-          </Header>
-          <FooterModal>
-            {textCancel ? (
-              <ActionButtonModal onPress={functionCancel}>
-                <TitleAction style={{ color: '#B83341' }}>{textCancel}</TitleAction>
-              </ActionButtonModal>
-            ): <View style={{ width: 20}} />}
-            {textConfirm && (
-              <ActionButtonModal onPress={functionConfirm}>
-                <TitleAction style={{ color: '#528F33' }}>{textConfirm}</TitleAction>
-              </ActionButtonModal>
-            )}
-          </FooterModal>
-        </Content>
-      </Container>
-    </Modal>
+    <AlertContext.Provider value={{ openModal, closeModal }}>
+      {children}
+      <Modal visible={open}>
+        <Container>
+          <Content>
+            <Header>
+              <Title>{title}</Title>
+              <Description>{description}</Description>
+            </Header>
+            <FooterModal>
+              {!!action.cancel ? (
+                <ActionButtonModal onPress={handleCancelModal}>
+                  <TitleAction style={{ color: '#B83341' }}>{titleCancel}</TitleAction>
+                </ActionButtonModal>
+              ): <View style={{ width: 20}} />}
+              {!!action.confirm && (
+                <ActionButtonModal onPress={handleConfirmModal}>
+                  <TitleAction style={{ color: '#528F33' }}>{titleConfirm}</TitleAction>
+                </ActionButtonModal>
+              )}
+            </FooterModal>
+          </Content>
+        </Container>
+      </Modal>
+    </AlertContext.Provider>
   );
 }
+
+function useModal() {
+  const context = useContext(AlertContext);
+
+  return context;
+}
+
+export { AlertProvider, useModal }

@@ -18,21 +18,23 @@ Aplicativo para ajudar os garçons gerenciar os pedido de uma pizzaria.
 
 ## :hammer_and_wrench: Features 
 
--   [x] Autenticação com firebase (e-mail e senha).
--   [x] Redefinição de senha com firebase(e-mail).
--   [x] Obtém perfil do usuário cadastrado no Firestore (Administrador ou garçom);
--   [x] Tela de cadastro de produtos.
--   [x] Componente de upload de imagens.
--   [x] Uplaod de arquivo para o storage do firebase.
--   [x] Cadastro de produto no firestore.
--   [x] Listagem de produtos;
--   [x] Pesquisa de produtos;
--   [x] Detalhes do produto;
--   [x] Exclusão do produto;
--   [x] Modal Personalizado;
--   [x] Disponibiliza a função de Logout.
--   [x] Tela de solicitação de pedido.
--   [ ] Tela de pedidos (com status de cada pedido em tempo real);
+-   [x] Autenticação com firebase (e-mail e senha)
+-   [x] Redefinição de senha com firebase(e-mail)
+-   [x] Obtém perfil do usuário cadastrado no Firestore (Administrador ou garçom)
+-   [x] Tela de cadastro de produtos
+-   [x] Componente de upload de imagens
+-   [x] Uplaod de arquivo para o storage do firebase
+-   [x] Cadastro de produto no firestore
+-   [x] Listagem de produtos
+-   [x] Pesquisa de produtos
+-   [x] Detalhes do produto
+-   [x] Exclusão do produto
+-   [x] Modal Personalizado
+-   [x] Alert Dropdown personalizado
+-   [x] Disponibiliza a função de Logout
+-   [x] Tela de solicitação de pedido
+-   [x] Tela de listagem de pedidos com atualização em realtime
+-   [x] Tela de pedidos (com status de cada pedido em tempo real)
 
 
 ## ✨ Tecnologias
@@ -48,7 +50,7 @@ Aplicativo para ajudar os garçons gerenciar os pedido de uma pizzaria.
 -   [x] Storage do Firebase 
 -   [x] Gradient colors
 -   [x] Expo Google Fonts
--   [ ] React Navigation Stack
+-   [x] React Navigation Stack
 
 
 ## 🔖 Layout

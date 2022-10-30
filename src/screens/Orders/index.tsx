@@ -6,6 +6,8 @@ import { FlatList } from 'react-native';
 
 import { useAuth } from '../../hooks/auth';
 
+import { useModal } from '../../components/Alert';
+
 import { OrderCard, OrderProps } from '../../components/OrderCard';
 
 import {
@@ -18,7 +20,28 @@ import {
 export function Orders() {
   const { user } = useAuth();
 
+  const { openModal } = useModal();
+
   const [orders, setOrders] = useState<OrderProps[]>([]);
+
+  function handlePizzaDelivered(id: string) {
+    openModal(
+      'Atualização do pedido!',
+      'Confirmar que a pizza foi entregue?',
+      'Não',
+      'Confirmar',
+      {
+        confirm: () => {
+          firestore()
+          .collection('orders')
+          .doc(id)
+          .update({
+            status: 'Entregue'
+          })
+        }
+      }
+    );
+  }
 
   useEffect(() => {
     const subscribe = firestore()
@@ -47,7 +70,12 @@ export function Orders() {
         data={orders}
         keyExtractor={item => item.id}
         renderItem={({ item, index }) => (
-          <OrderCard index={index} data={item} />
+          <OrderCard
+            index={index}
+            data={item}
+            disabled={item.status === 'Entregue'}
+            onPress={() => handlePizzaDelivered(item.id)}
+          />
         )}
         numColumns={2}
         showsVerticalScrollIndicator={false}

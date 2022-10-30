@@ -6,13 +6,13 @@ import React, {
   useEffect,
 } from "react";
 
-import { Alert } from 'react-native';
-
 import auth from '@react-native-firebase/auth';
 
 import firestore from '@react-native-firebase/firestore';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useDropdown } from "../components/AlertDropdown";
 
 type User = {
   id: string;
@@ -37,13 +37,15 @@ const USER_COLLECTION = '@gopizza:users';
 export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
+  const { openDropdown } = useDropdown();
+
   const [isLogging, setIsLogging] = useState(false);
 
   const [user, setUser] = useState<User|null>(null);
 
   async function signIn(email: string, password: string) {
     if(!email || !password) {
-      return Alert.alert('Login', 'Informe o e-mail e a senha!')
+      return openDropdown('error', 'Erro!', 'Informe o e-mail e a senha.');
     }
 
     setIsLogging(true);
@@ -68,15 +70,15 @@ function AuthProvider({ children }: AuthProviderProps) {
 
           setUser(userData);
         }
-      }).catch(() => Alert.alert('Login Error', 'Não foi possível buscar os dados de perfil do usuário'));
+      }).catch(() => openDropdown('error', 'Erro!', 'Não foi possível buscar os dados de perfil do usuário.'));
     })
     .catch(error => {
       const { code } = error;
 
       if(code === 'auth/user-not-found' || code === 'auth/wrong-password') {
-        return Alert.alert('Login Error', 'E-mail e/ou senha inválida!')
+        return openDropdown('error', 'Erro!', 'E-mail e/ou senha inválida.')
       } else {
-        return Alert.alert('Login Error', 'Não foi possível realizar o login!');
+        return openDropdown('error', 'Erro!', 'Não foi possível realizar o login.')
       }
     })
     .finally(() => setIsLogging(false));
@@ -106,13 +108,13 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function forgotPassword(email: string) {
     if(!email) {
-      return Alert.alert('Recuperação de acesso!', 'Informe o e-mail.')
+      return openDropdown('error', 'Erro!', 'Informe o e-mail.')
     }
 
     auth()
     .sendPasswordResetEmail(email)
-    .then(() => Alert.alert('Recuperação de acesso!', 'Enviamos um link no seu e-mail para redefinir sua senha!'))
-    .catch(() => Alert.alert('Recuperação de acesso!', 'Não foi possível enviar o e-mail para redefinir sua senha!'))
+    .then(() => openDropdown('success', 'Recuperação de acesso!', 'Enviamos um link no seu e-mail para redefinir sua senha.'))
+    .catch(() => openDropdown('error', 'Erro!', 'Não foi possível enviar o e-mail para redefinir sua senha.'))
   }
 
   useEffect(() => {
