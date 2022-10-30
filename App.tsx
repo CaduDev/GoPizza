@@ -16,6 +16,8 @@ import theme from './src/theme/index';
 
 import { AuthProvider } from './src/hooks/auth';
 
+import { AlertProvider } from './src/hooks/Alert';
+
 import { Routes } from './src/routes';
 
 export default function App() {
@@ -32,9 +34,11 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
         <StatusBar style='light' translucent backgroundColor='transparent' />
-        <AuthProvider>
-          <Routes />
-        </AuthProvider>
+        <AlertProvider>
+          <AuthProvider>
+            <Routes />
+          </AuthProvider>
+        </AlertProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
   );

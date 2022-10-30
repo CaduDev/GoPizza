@@ -47,11 +47,6 @@ export const Upload = styled.View`
   margin: 32px 0px;
 `;
 
-export const PickImageButton = styled(Button)`
-  max-width: 90px;
-  margin-left: 32px;
-`;
-
 export const Form = styled.View`
   width: 100%;
   padding: 24px;

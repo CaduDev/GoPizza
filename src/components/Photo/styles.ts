@@ -6,7 +6,7 @@ export const Image = styled.Image`
   border-radius: 80px;
 `;
 
-export const Placeholder = styled.View`
+export const Placeholder = styled.TouchableOpacity`
   width: 160px;
   height: 160px;
   border-radius: 80px;

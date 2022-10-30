@@ -31,15 +31,12 @@ import { Button } from '../../components/Button';
 
 import { Loading } from '../../components/Loading';
 
-import { Alert } from '../../components/Alert';
-
 import {
   Container,
   Header,
   Title,
   DeleteLabel,
   Upload,
-  PickImageButton,
   Form,
   Label,
   InputGroup,
@@ -71,15 +68,6 @@ export function Product() {
   const [priceSizeG, setPriceSizeG] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingProduct, setIsLoadingProduct] = useState(true);
-  const [modal, setModal] = useState({
-    showModal: false,
-    title: "Erro!",
-    description: "Não foi possivel realizar a consulta!",
-    textCancel: "",
-    textConfirm: "Ok",
-    functionCancel: () => setModal({...modal, showModal: false, }),
-    functionConfirm: () => setModal({...modal, showModal: false, }),
-  });
 
   async function handlePickerImage() {
     if(image) {
@@ -101,45 +89,49 @@ export function Product() {
     }
   }
 
+  function handleClearPhoto() {
+    setImage("");
+  }
+
   async function handleAdd() {
     if(!name) {
-      return setModal({
-        ...modal, 
-        showModal: true,
-        title: 'Cadastro',
-        textCancel: '',
-        description: 'Informe o nome da pizza.'
-      });
+      // return setModal({
+      //   ...modal, 
+      //   showModal: true,
+      //   title: 'Cadastro',
+      //   textCancel: '',
+      //   description: 'Informe o nome da pizza.'
+      // });
     }
 
     if(!description) {
-      return setModal({
-        ...modal, 
-        showModal: true,
-        title: 'Cadastro',
-        textCancel: '',
-        description: 'Informe a descrição da pizza.'
-      });
+      // return setModal({
+      //   ...modal, 
+      //   showModal: true,
+      //   title: 'Cadastro',
+      //   textCancel: '',
+      //   description: 'Informe a descrição da pizza.'
+      // });
     }
 
     if(!image) {
-      return setModal({
-        ...modal, 
-        showModal: true,
-        title: 'Cadastro',
-        textCancel: '',
-        description: 'Selecione a imagem da pizza.'
-      });
+      // return setModal({
+      //   ...modal, 
+      //   showModal: true,
+      //   title: 'Cadastro',
+      //   textCancel: '',
+      //   description: 'Selecione a imagem da pizza.'
+      // });
     }
 
     if(!priceSizeP || !priceSizeM || !priceSizeG) {
-      return setModal({
-        ...modal, 
-        showModal: true,
-        title: 'Cadastro',
-        textCancel: '',
-        description: 'Verifique se preencheu todos os campos de tamanhos da pizza.'
-      });
+      // return setModal({
+      //   ...modal, 
+      //   showModal: true,
+      //   title: 'Cadastro',
+      //   textCancel: '',
+      //   description: 'Verifique se preencheu todos os campos de tamanhos da pizza.'
+      // });
     }
 
     setIsLoading(true);
@@ -167,14 +159,14 @@ export function Product() {
         photo_path: reference.fullPath
       })
       .then(() => {
-        setModal({
-          ...modal, 
-          showModal: true,
-          title: 'Sucesso',
-          textCancel: '',
-          description: 'Pizza cadastrada com sucesso!',
-          functionConfirm: () => navigation.navigate('home'),
-        });
+        // setModal({
+        //   ...modal, 
+        //   showModal: true,
+        //   title: 'Sucesso',
+        //   textCancel: '',
+        //   description: 'Pizza cadastrada com sucesso!',
+        //   functionConfirm: () => navigation.navigate('home'),
+        // });
 
         setImage('');
         setName('');
@@ -184,13 +176,13 @@ export function Product() {
         setPriceSizeG('');
       })
       .catch(() => {
-        setModal({
-          ...modal, 
-          showModal: true,
-          title: 'Erro',
-          textCancel: '',
-          description: 'Não foi possivel cadastrar a pizza!'
-        });
+        // setModal({
+        //   ...modal, 
+        //   showModal: true,
+        //   title: 'Erro',
+        //   textCancel: '',
+        //   description: 'Não foi possivel cadastrar a pizza!'
+        // });
         setIsLoading(false);
       });
   }
@@ -211,13 +203,13 @@ export function Product() {
       .then(() => navigation.navigate('home'))
     })
     .catch(() => {
-      setModal({
-        ...modal, 
-        showModal: true,
-        title: 'Erro',
-        textCancel: "",
-        description: 'Ocorreu um erro ao tentar deletar o produto!'
-      });
+      // setModal({
+      //   ...modal, 
+      //   showModal: true,
+      //   title: 'Erro',
+      //   textCancel: "",
+      //   description: 'Ocorreu um erro ao tentar deletar o produto!'
+      // });
     });
   }
 
@@ -260,15 +252,15 @@ export function Product() {
         <Title>Cadastrar</Title>
         {id ? (
           <TouchableOpacity onPress={() => {
-            setModal({
-              showModal: true,
-              title: "Aviso!",
-              description: "Tem certeza que deseja apagar esse produto?",
-              textCancel: "Cancelar",
-              textConfirm: "Ok",
-              functionCancel: () => setModal({...modal, showModal: false, }),
-              functionConfirm: () => handleDelete(),
-            });
+            // setModal({
+            //   showModal: true,
+            //   title: "Aviso!",
+            //   description: "Tem certeza que deseja apagar esse produto?",
+            //   textCancel: "Cancelar",
+            //   textConfirm: "Ok",
+            //   functionCancel: () => setModal({...modal, showModal: false, }),
+            //   functionConfirm: () => handleDelete(),
+            // });
           }}>
             <DeleteLabel>Deletar</DeleteLabel>
           </TouchableOpacity>
@@ -277,14 +269,11 @@ export function Product() {
       {!isLoadingProduct ? (
         <ScrollView showsVerticalScrollIndicator={false}>
           <Upload>
-            <Photo uri={image} />
-            {!id && (
-              <PickImageButton
-                title={image?"Limpar":"Carregar"}
-                type="secondary"
-                onPress={handlePickerImage}  
-              />
-            )}
+            <Photo
+              uri={image}
+              onPress={handlePickerImage}
+              onClearPhoto={handleClearPhoto}
+            />
           </Upload>
           <Form>
             <InputGroup>
@@ -334,15 +323,6 @@ export function Product() {
               />
             )}
           </Form>
-          <Alert 
-            showModal={modal.showModal}
-            title={modal.title}
-            description={modal.description}
-            textCancel={modal.textCancel}
-            functionCancel={modal.functionCancel}
-            textConfirm={modal.textConfirm}
-            functionConfirm={modal.functionConfirm}
-          />
         </ScrollView>
       ) : (
         <Loading title={id ? "Carregando produto...": "Carregando..." } />

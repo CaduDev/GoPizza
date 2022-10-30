@@ -16,7 +16,7 @@ import { Search } from '../../components/Search';
 
 import { ProductCard, ProductProps } from '../../components/ProductCard';
 
-import { Alert } from '../../components/Alert';
+import { useModal } from '../../hooks/Alert';
 
 import happyEmoji from '../../assets/happy.png';
 
@@ -32,23 +32,16 @@ import {
   LabelListEmptyComponent,
   NewProductButton,
 } from './styles';
+import { Button } from '../../components/Button';
 
 export function Home() {
   const navigation = useNavigation();
   
   const { signOut, user } = useAuth();
 
-  const { COLORS } = useTheme();
+  const { openModal } = useModal();
 
-  const [modal, setModal] = useState({
-    showModal: false,
-    title: "Erro!",
-    description: "Não foi possivel realizar a consulta!",
-    textCancel: "",
-    textConfirm: "Ok",
-    functionCancel: () => {},
-    functionConfirm: () => setModal({...modal, showModal: false, }),
-  });
+  const { COLORS } = useTheme();
   
   const [pizzas, setPizzas] = useState<ProductProps[]>([]);
   const [search, setSearch] = useState('');
@@ -72,7 +65,17 @@ export function Home() {
 
       setPizzas(data);
     })
-    .catch(() => setModal({...modal, showModal: true }));
+    .catch(() => {
+      openModal(
+        'Erro!',
+        'Não fo possivel carregar a lista de produtos.',
+        '',
+        'Ok',
+        {
+          cancel: false,
+        }
+      );
+    });
   }
 
   function handleSearch() {
@@ -93,6 +96,18 @@ export function Home() {
 
   function handleAdd() {
     navigation.navigate('product', {});
+  }
+
+  function teste() {
+    openModal(
+      'Erro!',
+      'Não fo possivel carregar a lista de produtos.',
+      '',
+      'Ok',
+      {
+        cancel: false,
+      }
+    );
   }
 
   useFocusEffect(useCallback(() => {
@@ -142,20 +157,12 @@ export function Home() {
           marginHorizontal: 24,
         }}
       />
-      {user && <NewProductButton
+      <Button title="Testar Dropdawn Alert" onPress={teste} />
+      {user?.isAdmin && <NewProductButton
         title="Cadastrar Pizza"
         type="secondary"
         onPress={handleAdd}
       />}
-      <Alert 
-        showModal={modal.showModal}
-        title={modal.title}
-        description={modal.description}
-        textCancel={modal.textCancel}
-        functionCancel={modal.functionCancel}
-        textConfirm={modal.textConfirm}
-        functionConfirm={modal.functionConfirm}
-      />
     </Container>
   );
 }

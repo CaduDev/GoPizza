@@ -19,7 +19,7 @@ export const Title = styled.Text`
   text-align: center;
 
   ${({ theme }) => css`
-    font-family: ${theme.COLORS.TITLE};
+    font-family: ${theme.FONTS.TITLE};
     color: ${theme.COLORS.TITLE};
   `};
 `;
