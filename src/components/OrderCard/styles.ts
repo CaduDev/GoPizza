@@ -30,6 +30,7 @@ export const Image = styled.Image`
 export const Name = styled.Text`
   font-size: 20px;
   margin-top: 21px;
+  text-align: center;
 
   ${({ theme }) => css`
     font-family: ${theme.FONTS.TITLE};
