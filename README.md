@@ -31,6 +31,7 @@ Aplicativo para ajudar os garçons gerenciar os pedido de uma pizzaria.
 -   [x] Exclusão do produto;
 -   [x] Modal Personalizado;
 -   [x] Disponibiliza a função de Logout.
+-   [x] Tela de solicitação de pedido.
 -   [ ] Tela de pedidos (com status de cada pedido em tempo real);
 
 
